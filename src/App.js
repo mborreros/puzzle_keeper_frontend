@@ -1,8 +1,11 @@
 import logo from './logo.svg';
+import NavBar from './navbar.js'
 import './App.css';
 
 function App() {
   return (
+    <div>
+    <NavBar/>
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
@@ -18,6 +21,7 @@ function App() {
           Learn React
         </a>
       </header>
+    </div>
     </div>
   );
 }
