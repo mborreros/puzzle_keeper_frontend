@@ -1,18 +1,30 @@
 import React from "react"
-import { NavLink } from "react-router-dom"
+import "bootstrap/dist/css/bootstrap.css"
+// import { NavLink } from "react-router-dom";
 import Navbar from 'react-bootstrap/Navbar'
+import Nav from 'react-bootstrap/Nav'
 import Container from 'react-bootstrap/Container'
 
-function NavBar() {
+import logo from "./img/general_icon.svg";
+
+function Navigation() {
   return(
-    <Navbar bg="light" variant="light">
-      <Container>
-      <Navbar.Brand href="#home">Navbar</Navbar.Brand>
-        <NavLink href="#home">Home</NavLink>
-        <NavLink href="#features">Features</NavLink>
-        <NavLink href="#pricing">Pricing</NavLink>
-      </Container>
-    </Navbar>
+    <nav>
+      <Navbar bg="secondary" className="puzzle-navbar">
+        <Container>
+          <Navbar.Brand href="/">
+            <img src={logo} alt="aqua puzzle piece" className="navbar-logo"/>
+            Puzzle Keeper
+            </Navbar.Brand>
+          <Nav className="me-auto" variant="pills" defaultActiveKey="/home">
+            <Nav.Link href="/">Home</Nav.Link>
+            <Nav.Link href="/puzzles">Puzzles</Nav.Link>
+            <Nav.Link href="/reviews">Reviews</Nav.Link>
+            <Nav.Link href="/users">Contributors</Nav.Link>
+          </Nav>
+        </Container>
+      </Navbar>
+    </nav>
   )}
 
-export default NavBar;
+export default Navigation;
