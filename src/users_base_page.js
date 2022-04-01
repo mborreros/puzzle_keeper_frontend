@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from "react";
 import UserForm from "./user_form";
 
-import ListGroup from 'react-bootstrap/ListGroup'
-import Badge from 'react-bootstrap/Badge'
-import { Row, Container, Col } from "react-bootstrap";
-import Accordion from 'react-bootstrap/Accordion'
+import ListGroup from 'react-bootstrap/ListGroup';
+import Badge from 'react-bootstrap/Badge';
+import { Row, Container, Col, Button } from "react-bootstrap";
 
 function UserPage() {
 
   const [userData, setUserData] = useState([]);
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
   useEffect(() => {
     fetch("http://localhost:9292/users")
@@ -18,8 +21,8 @@ function UserPage() {
   },[])
 
   let userEntries = userData.map((user) => {
-    // format join date for card to yyyy-mm-dd from ISO
-    let date = new Date(user.join_date);
+    // format join date/created at for card to yyyy-mm-dd from ISO
+    let date = new Date(user.created_at);
     let year = date.getFullYear();
     let month = date.getMonth() + 1;
     let dt = date.getDate();
@@ -49,19 +52,16 @@ function UserPage() {
   return (
     <div>
       <Container>
-        <Row>
+        <Row className="my-4">
           <Col className="col-3">
           <h4>Current Contributors</h4>
           </Col>
-          <Col className="d-flex justify-content-end col-9">
-            <Accordion>
-              <Accordion.Item eventKey="0">
-                <Accordion.Header>Become a contributor</Accordion.Header>
-                <Accordion.Body>
-                  <UserForm />
-                </Accordion.Body>
-              </Accordion.Item>
-            </Accordion>
+          {/* need to figure out how to stretch the accordian out! */}
+          <Col className="col-9">
+            <Button className="float-end" variant="secondary" onClick={handleShow}>
+              Become a Contributor
+            </Button>
+            <UserForm show={show} handleClose={handleClose}/>
           </Col>
           </Row>
         <Row>

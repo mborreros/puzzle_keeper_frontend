@@ -1,6 +1,5 @@
 import React from "react"
 import "bootstrap/dist/css/bootstrap.css"
-// import { NavLink } from "react-router-dom";
 import Navbar from 'react-bootstrap/Navbar'
 import Nav from 'react-bootstrap/Nav'
 import Container from 'react-bootstrap/Container'
@@ -17,8 +16,8 @@ function Navigation() {
             Puzzle Keeper
             </Navbar.Brand>
           <Nav className="me-auto" variant="pills" defaultActiveKey="/home">
-            <Nav.Link href="/">Home</Nav.Link>
-            <Nav.Link href="/puzzles">Puzzles</Nav.Link>
+            <Nav.Link href="/collection">Puzzles</Nav.Link>
+            <Nav.Link href="/wishlist">Wishlist</Nav.Link>
             <Nav.Link href="/reviews">Reviews</Nav.Link>
             <Nav.Link href="/users">Contributors</Nav.Link>
           </Nav>

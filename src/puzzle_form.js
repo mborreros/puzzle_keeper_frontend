@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Row, Container, Button, Modal } from "react-bootstrap";
 import Form from 'react-bootstrap/Form'
 
-function UserForm({ show, handleClose }){
+function PuzzleForm({ show, handleClose }){
 
   const [userName, setUserName] = useState("");
   const [userBio, setUserBio] = useState("");
@@ -60,4 +60,4 @@ function UserForm({ show, handleClose }){
   )
 };
 
-export default UserForm
+export default PuzzleForm
