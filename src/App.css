@@ -1,10 +1,20 @@
 .navbar-logo{
-  background: ;
   padding-right: 8px;
   height: 32px;
-};
+}
 
-/* need to figure out how to change the background color of the navbar! */
-.puzzle-navbar {
+/* .puzzle-navbar {
   background-color: rgb(255, 193, 204);
-};
+} */
+
+.piece-icon {
+  padding-bottom: 1px;
+}
+
+nav + .container {
+  margin-top: 3rem;
+}
+
+.page-title {
+  margin-bottom: 2.5rem;
+}

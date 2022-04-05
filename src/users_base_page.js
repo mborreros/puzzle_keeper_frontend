@@ -50,14 +50,12 @@ function UserPage() {
     })
 
   return (
-    <div>
       <Container>
-        <Row className="my-4">
-          <Col className="col-3">
-          <h4>Current Contributors</h4>
+        <Row>
+          <Col>
+          <h4 className="page-title">Current Contributors</h4>
           </Col>
-          {/* need to figure out how to stretch the accordian out! */}
-          <Col className="col-9">
+          <Col>
             <Button className="float-end" variant="secondary" onClick={handleShow}>
               Become a Contributor
             </Button>
@@ -70,8 +68,6 @@ function UserPage() {
           </ListGroup>
         </Row>
       </Container>
-    </div>
-
   );
 }
 

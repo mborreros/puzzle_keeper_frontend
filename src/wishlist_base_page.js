@@ -18,21 +18,23 @@ const handleShow = () => setShow(true);
 useEffect(() => {
   fetch("http://localhost:9292/wishlist")
     .then(response => response.json())
-    .then(data => {setWishListData(data)})
+    .then(data => {
+      data.map((puzzle) => {
+        puzzle.isRemoved = false;
+    })
+    setWishListData(data)})
     .catch(error => console.log('error', error));
 },[])
 
   return (
-    <div>
     <Container>
       <Row>
-        <Col className="col-3">
-        <h4>Wishlist</h4>
+        <Col>
+        <h4 className="page-title">Wishlist</h4>
         </Col>
-        {/* need to figure out how to stretch the accordian out! */}
-        <Col className="user-accordian d-flex justify-content-end col-9">
-        <Button className="float-end" variant="secondary" onClick={handleShow}>
-              Add a Puzzle to Wishlist
+        <Col>
+            <Button className="float-end" variant="secondary" onClick={handleShow}>
+              Add a Puzzle to the Wishlist
             </Button>
             <PuzzleForm show={show} handleClose={handleClose}/>
         </Col>
@@ -40,12 +42,11 @@ useEffect(() => {
 
       <Row>
 
-       <PuzzleCard wishListPuzzles={wishListData}/>
+       <PuzzleCard wishListPuzzles={wishListData} setWishListPuzzles={setWishListData}/>
 
       </Row>
 
     </Container>
-  </div>
   );
 }
 

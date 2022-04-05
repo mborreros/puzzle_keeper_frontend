@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Row, Container, Button, Modal } from "react-bootstrap";
+import { Button, Modal } from "react-bootstrap";
 import Form from 'react-bootstrap/Form'
 
 function UserForm({ show, handleClose }){
@@ -45,6 +45,7 @@ function UserForm({ show, handleClose }){
                   <Form.Label>Name</Form.Label>
                   <Form.Control type="text" value={userName} onChange={handleUserNameChange} placeholder="Enter name" />
                   </Form.Group>
+
                   <Form.Group className="mb-3" controlId="formUserBio">
                   <Form.Label>Bio</Form.Label>
                   <Form.Control type="text" value={userBio} onChange={handleUserBioChange} placeholder="Tell us a bit about yourself" />
