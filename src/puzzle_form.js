@@ -1,108 +1,102 @@
 // things to consider/adjust
-  // rearrange the puzzle entries so that they show newest to oldest
-  // correct the created_on timestamp in the puzzle table on the server 
   // better visually organize the puzzle form, ultimately it should be able to fit within the window view for the user without scrolling
+  // show text form label to the left of the input field 
 
-import React, { useState } from "react";
-import { Button, Modal } from "react-bootstrap";
+import React, { useEffect, useState } from "react";
+import { Button, Modal, Col, Row } from "react-bootstrap";
 import Form from 'react-bootstrap/Form'
 
-function PuzzleForm({ show, handleClose }){
+function PuzzleForm({ formDefaults, show, handleClose }){
 
-  const [puzzleTitle, setPuzzleTitle] = useState("");
-  const [puzzlePieces, setPuzzlePieces] = useState("");
-  const [puzzleManufacturor, setPuzzleManufacturor] = useState("");
-  const [puzzleStyle, setPuzzleStyle] = useState("");
-  const [puzzlePurchaseLink, setPuzzlePurchaseLink] = useState("");
-  const [puzzlePrice, setPuzzlePrice] = useState("");
-  const [puzzleImageLink, setPuzzleImageLink] = useState("");
+  const puzzleFormData = {
+    title: "",
+    pieces: "",
+    manufacturer: "",
+    style: "",
+    purchase_link: "",
+    price: "",
+    image: "",
+    owned: false
+}
+  const [formData, setFormData] = useState(puzzleFormData);
 
-  function handlepuzzleTitleChange(event){
-    setPuzzleTitle(event.target.value)
-  }
-  function handlePuzzlePiecesChange(event){
-    setPuzzlePieces(event.target.value)
-  }
-  function handlePuzzleManufacturorChange(event){
-    setPuzzleManufacturor(event.target.value)
-  }
-  function handlePuzzleStyleChange(event){
-    setPuzzleStyle(event.target.value)
-  }
-  function handlePuzzlePurchaseLinkChange(event){
-    setPuzzlePurchaseLink(event.target.value)
-  }
-  function handlePuzzlePriceChange(event){
-    setPuzzlePrice(event.target.value)
-  }
-  function handlePuzzleImageLinkChange(event){
-    setPuzzleImageLink(event.target.value)
+  function handlePuzzleInputs(v){
+    setFormData({
+      ...formData,
+      [v.name]: v.value
+    })
   }
 
+  // breaks routes .... says formDefaults is undefined
+// useEffect(() => {
+//   for (const key in formDefaults.inputs) {
+//     let newValue = {name: key,value: formDefaults.inputs[key]}
+//     console.log(newValue)
+//     handlePuzzleInputs(newValue)
+//   }
+// }, [])
 
-  function handleUserSubmit(event) {
+  // marked as not defined...
+  // console.log(formDefaults.inputs[title])
+
+  function handlePuzzleSubmit(event) {
     event.preventDefault();
-
-    const puzzleFormData = {
-      title: puzzleTitle,
-      pieces: puzzlePieces,
-      manufacturer: puzzleManufacturor,
-      style: puzzleStyle,
-      purchase_link: puzzlePurchaseLink,
-      price: puzzlePrice,
-      image: puzzleImageLink,
-      owned: false
-    };
 
     let puzzlePostData = {
       method: "POST", 
       headers: {"Content-type": "application/json"}, 
-      body: JSON.stringify(puzzleFormData)
+      body: JSON.stringify(formData)
     }
-    fetch("http://localhost:9292/wishlist", puzzlePostData)
+    fetch(`http://localhost:9292/${formDefaults.postUrl}`, puzzlePostData)
         .then(response => response.json())
         .catch(error => console.log("error", error));
     
-    // reloads page to collapse form and repopulate user data shown
-    window.location.reload(true);
+    handleClose();
+    setFormData(puzzleFormData);
   }
 
   return(
-      <Modal show={show} onHide={handleClose}>
+      <Modal show={show} onHide={handleClose} className="puzzle-form-modal"> 
               <Modal.Header closeButton>
-                <Modal.Title>Add a Puzzle to the Wishlist</Modal.Title>
+              {/* {formDefaults.type} */}
+                <Modal.Title>Add a Puzzle to the Collection</Modal.Title>
               </Modal.Header>
+                <Row className="d-flex">
               <Modal.Body>
-                <Form onSubmit={handleUserSubmit}>
+                Input your wishlist puzzle information here. All fields are optional.
+              </Modal.Body>
+              </Row>
+                <Row  className="d-flex">
+              <Modal.Body>
+                <Form onSubmit={handlePuzzleSubmit} name="wishlistForm">
                   <Form.Group className="mb-3" controlId="formPuzzleTitle">
                   <Form.Label>Title</Form.Label>
-                  <Form.Control type="text" value={puzzleTitle} onChange={handlepuzzleTitleChange} placeholder="enter puzzle title" />
+                  <Form.Control type="text" name="title" value={formData.title} onChange={(e) => handlePuzzleInputs(e.target)} placeholder="enter puzzle title" />
                   </Form.Group>
                   <Form.Group className="mb-3" controlId="formPuzzlePieces">
                   <Form.Label>Pieces</Form.Label>
-                  <Form.Control type="text" value={puzzlePieces} onChange={handlePuzzlePiecesChange} placeholder="number of pieces (without punctuation)" />
+                  <Form.Control type="text" name="pieces" value={formData.pieces} onChange={(e) => handlePuzzleInputs(e.target)} placeholder="number of pieces (without punctuation)" />
                   </Form.Group>
                   <Form.Group className="mb-3" controlId="formManufacturor">
                   <Form.Label>Manufacturor</Form.Label>
-                  <Form.Control type="text" value={puzzleManufacturor} onChange={handlePuzzleManufacturorChange} placeholder="manufacturor" />
+                  <Form.Control type="text" name="manufacturer" value={formData.manufacturer} onChange={(e) => handlePuzzleInputs(e.target)} placeholder="manufacturor" />
                   </Form.Group>
                   <Form.Group className="mb-3" controlId="formStyle">
                   <Form.Label>Style</Form.Label>
-                  <Form.Control type="text" value={puzzleStyle} onChange={handlePuzzleStyleChange} placeholder="if applicable" />
+                  <Form.Control type="text" name="style" value={formData.style} onChange={(e) => handlePuzzleInputs(e.target)} placeholder="if applicable" />
                   </Form.Group>
                   <Form.Group className="mb-3" controlId="formPurchaseLink">
                   <Form.Label>Link to Purchase</Form.Label>
-                  <Form.Control type="text" value={puzzlePurchaseLink} onChange={handlePuzzlePurchaseLinkChange} placeholder="if applicable" />
+                  <Form.Control type="text" name="purchase_link" value={formData.purchase_link} onChange={(e) => handlePuzzleInputs(e.target)} placeholder="if applicable" />
                   </Form.Group>
                   <Form.Group className="mb-3" controlId="formPurchaseLink">
                   <Form.Label>Price of puzzle</Form.Label>
-                  <Form.Control type="text" value={puzzlePrice} onChange={handlePuzzlePriceChange} placeholder="enter without punctuation" />
+                  <Form.Control type="text" name="price" value={formData.price} onChange={(e) => handlePuzzleInputs(e.target)} placeholder="enter without punctuation" />
                   </Form.Group>
                   <Form.Group className="mb-3" controlId="formPurchaseLink">
                   <Form.Label>Link to puzzle image</Form.Label>
-                  <Form.Control type="text" value={puzzleImageLink} onChange={handlePuzzleImageLinkChange} placeholder="if applicable" />
+                  <Form.Control type="text" name="image" value={formData.image} onChange={(e) => handlePuzzleInputs(e.target)} placeholder="if applicable" />
                   </Form.Group>
-                  
                   
                   <div className="text-end">
                   <Button variant="primary" type="submit">
@@ -111,6 +105,7 @@ function PuzzleForm({ show, handleClose }){
                   </div>
                 </Form>
               </Modal.Body>
+              </Row>
             </Modal>
   )
 };

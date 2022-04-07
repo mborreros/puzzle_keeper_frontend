@@ -18,7 +18,7 @@ function Navigation() {
           <Nav className="me-auto" variant="pills" defaultActiveKey="/home">
             <Nav.Link href="/collection">Puzzles</Nav.Link>
             <Nav.Link href="/wishlist">Wishlist</Nav.Link>
-            <Nav.Link href="/reviews">Reviews</Nav.Link>
+            <Nav.Link href="/review">Review</Nav.Link>
             <Nav.Link href="/users">Contributors</Nav.Link>
           </Nav>
         </Container>

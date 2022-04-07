@@ -5,13 +5,14 @@ import ListGroup from 'react-bootstrap/ListGroup';
 import Badge from 'react-bootstrap/Badge';
 import { Row, Container, Col, Button } from "react-bootstrap";
 
-function UserPage() {
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
+
+function UserPage({ handleClose, handleShow, show }) {
+  library.add(faTrashCan);
 
   const [userData, setUserData] = useState([]);
-  const [show, setShow] = useState(false);
-
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
 
   useEffect(() => {
     fetch("http://localhost:9292/users")
@@ -38,13 +39,24 @@ function UserPage() {
     return (
       <ListGroup.Item as="li" className="d-flex justify-content-between align-items-start" key={user.id}>
         <div className="ms-2 me-auto">
+          <Row>
           <div className="fw-bold">{user.name}</div>
             <div>{user.bio}</div>
             <div>Joined on: {parsed_join_date}</div>
+          </Row>
           </div>
+          <Row>
           <Badge bg="primary" pill>
            Reviews completed {user.review_count}
           </Badge>
+          {/* add buttons for edit and remove user */}
+          {/* <Col>
+          <Button>Edit</Button>
+          </Col>
+          <Col>
+          <Button variant="outline-danger" className="remove-button float-end"></Button>
+          </Col> */}
+          </Row>
         </ListGroup.Item>
       )
     })

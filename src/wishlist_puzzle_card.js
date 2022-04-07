@@ -1,6 +1,3 @@
-// on click of collect button, show check "collected" rather than reload page
-// on click of remove button, show trash "removed" rather than reload page
-
 import React, { useState, useEffect } from "react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -10,7 +7,7 @@ import { faPuzzlePiece, faCirclePlus, faTrashCan, faCartShopping, faListCheck } 
 import { Card, Row, Col, Button, Container } from "react-bootstrap";
 
 
-function PuzzleCard({ wishListPuzzles, setWishListPuzzles }) {
+function WishlistPuzzleCard({ wishListPuzzles, setWishListPuzzles }) {
   // adds puzzle piece icon to the library for the puzzle card
   library.add(faPuzzlePiece);
   library.add(faCirclePlus);
@@ -19,7 +16,6 @@ function PuzzleCard({ wishListPuzzles, setWishListPuzzles }) {
   library.add(faListCheck)
 
   const [isRemoved, setIsRemoved] = useState(false);
-
 
   function handleCollect(thisPuzzle) {
 
@@ -118,4 +114,4 @@ function PuzzleCard({ wishListPuzzles, setWishListPuzzles }) {
   );
 }
 
-export default PuzzleCard;
+export default WishlistPuzzleCard;
