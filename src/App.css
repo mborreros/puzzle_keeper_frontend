@@ -19,6 +19,10 @@ nav + .container {
   margin-bottom: 2.5rem;
 }
 
-.puzzle-form-modal{
-/*  */
+.input-group-text {
+  line-height: 1;
+}
+
+.btn {
+  text-transform: none;
 }

@@ -10,7 +10,8 @@ function WishListPage({ handleClose, handleShow, show }) {
 
 const [wishListData, setWishListData] = useState([]);
 
-useEffect(() => {
+// data fetch is defined outside of useEffect to allow for the page to fetch updated data upon form submission
+async function fetchWishlistData() {
   fetch("http://localhost:9292/wishlist")
     .then(response => response.json())
     .then(data => {
@@ -19,6 +20,10 @@ useEffect(() => {
     })
     setWishListData(data)})
     .catch(error => console.log('error', error));
+}
+
+useEffect(() => {
+  fetchWishlistData()
 },[])
 
   return (
@@ -31,7 +36,7 @@ useEffect(() => {
             <Button className="float-end" variant="secondary" onClick={handleShow}>
               Add a Puzzle to the Wishlist
             </Button>
-            <PuzzleForm formDefaults={{type: 'Wishlist', postUrl: 'wishlist', inputs: {owned: false}}} show={show} handleClose={handleClose}/>
+            <PuzzleForm formDefaults={{type: 'Wishlist', postUrl: 'wishlist', inputs: {owned: false}}} show={show} handleClose={handleClose} fetchPuzzles={fetchWishlistData}/>
         </Col>
         </Row>
 

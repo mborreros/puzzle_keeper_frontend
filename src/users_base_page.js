@@ -14,11 +14,16 @@ function UserPage({ handleClose, handleShow, show }) {
 
   const [userData, setUserData] = useState([]);
 
-  useEffect(() => {
+  // data fetch is defined outside of useEffect to allow for the page to fetch updated data upon form submission
+  async function fetchUserData() {
     fetch("http://localhost:9292/users")
-      .then(response => response.json())
-      .then(data => {setUserData(data)})
-      .catch(error => console.log('error', error));
+    .then(response => response.json())
+    .then(data => {setUserData(data)})
+    .catch(error => console.log('error', error));
+  }
+
+  useEffect(() => {
+    fetchUserData()
   },[])
 
   let userEntries = userData.map((user) => {
@@ -71,7 +76,7 @@ function UserPage({ handleClose, handleShow, show }) {
             <Button className="float-end" variant="secondary" onClick={handleShow}>
               Become a Contributor
             </Button>
-            <UserForm show={show} handleClose={handleClose}/>
+            <UserForm show={show} handleClose={handleClose} fetchData={fetchUserData}/>
           </Col>
           </Row>
         <Row>
