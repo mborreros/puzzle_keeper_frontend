@@ -1,4 +1,3 @@
-// need to have conditional to render a user message if there are no reviews submitted yet
 // need to find how to get user names associated with each review
 // display the reviews readibly to user
 
@@ -7,7 +6,7 @@ import { useParams } from 'react-router-dom'
 
 import ListGroup from 'react-bootstrap/ListGroup';
 import { Row, Container, Col, Button } from "react-bootstrap";
-import PuzzleForm from "./puzzle_form";
+import ReviewForm from "./review_form"
 
 function ReviewPage({ handleClose, handleShow, show }) {
 
@@ -33,31 +32,30 @@ function ReviewPage({ handleClose, handleShow, show }) {
   // user-profile.name = that user's name 
 
   let reviewEntries = puzzleReview.map((review) => {
-    return (
-        <ListGroup.Item as="li" className="d-flex justify-content-between align-items-start" key={review.id}>
-        <div className="ms-2 me-auto">
-          <Row>
-          <div className="fw-bold">{puzzleData.title}</div>
-            <div>{review.purchase_reason}</div>
-            <div>{review.purchase_location}</div>
-            <div>{review.poster}</div>
-            <div>{review.piece_quality}</div>
-            <div>{review.piece_quality_desc}</div>
-            <div>{review.fit_quality}</div>
-            <div>{review.fit_quality_desc}</div>
-            <div>{review.finished_quality}</div>
-            <div>{review.finished_quality_desc}</div>
-            <div>{review.difficulty}</div>
-            <div>{review.difficulty_desc}</div>
-            <div>{review.recommend}</div>
-            <div>{review.recommend_desc}</div>
-          </Row>
-          </div>
-          <Row>
-          </Row>
-        </ListGroup.Item>
-    )
-  })
+      return (
+          <ListGroup.Item as="div" className="d-flex justify-content-between align-items-start" key={review.id}>
+          <div className="ms-2 me-auto">
+            <Row>
+            <div className="fw-bold">{puzzleData.title}</div>
+              <div>{review.purchase_reason}</div>
+              <div>{review.purchase_location}</div>
+              <div>{review.poster}</div>
+              <div>{review.piece_quality}</div>
+              <div>{review.piece_quality_desc}</div>
+              <div>{review.fit_quality}</div>
+              <div>{review.fit_quality_desc}</div>
+              <div>{review.finished_quality}</div>
+              <div>{review.finished_quality_desc}</div>
+              <div>{review.difficulty}</div>
+              <div>{review.difficulty_desc}</div>
+              <div>{review.recommend}</div>
+              <div>{review.recommend_desc}</div>
+            </Row>
+            </div>
+            <Row>
+            </Row>
+          </ListGroup.Item>
+      )})
 
   return (
     <Container>
@@ -69,14 +67,14 @@ function ReviewPage({ handleClose, handleShow, show }) {
           <Button className="float-end" variant="secondary" onClick={handleShow}>
             Add a Review for this Puzzle
           </Button>
-          <PuzzleForm show={show} handleClose={handleClose}/>
+          <ReviewForm show={show} handleClose={handleClose} currentPuzzle={puzzleData} />
       </Col>
       </Row>
 
     <Row>
-
-    {reviewEntries}
-
+    <ListGroup as="ul">
+    {reviewEntries.length ? reviewEntries : <p>There are no reviews for this puzzle. Ready to contribute? Click the button above!</p> }
+    </ListGroup>
     </Row>
 
   </Container>

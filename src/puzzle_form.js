@@ -27,17 +27,11 @@ function PuzzleForm({ formDefaults, show, handleClose }){
     })
   }
 
-  // breaks routes .... says formDefaults is undefined
-// useEffect(() => {
-//   for (const key in formDefaults.inputs) {
-//     let newValue = {name: key,value: formDefaults.inputs[key]}
-//     console.log(newValue)
-//     handlePuzzleInputs(newValue)
-//   }
-// }, [])
-
-  // marked as not defined...
-  // console.log(formDefaults.inputs[title])
+useEffect(() => {
+  for (const key in formDefaults.inputs) {
+    handlePuzzleInputs({name: key,value: formDefaults.inputs[key]})
+  }
+}, [])
 
   function handlePuzzleSubmit(event) {
     event.preventDefault();
@@ -58,8 +52,7 @@ function PuzzleForm({ formDefaults, show, handleClose }){
   return(
       <Modal show={show} onHide={handleClose} className="puzzle-form-modal"> 
               <Modal.Header closeButton>
-              {/* {formDefaults.type} */}
-                <Modal.Title>Add a Puzzle to the Collection</Modal.Title>
+                <Modal.Title>Add a Puzzle to the {formDefaults.type}</Modal.Title>
               </Modal.Header>
                 <Row className="d-flex">
               <Modal.Body>
