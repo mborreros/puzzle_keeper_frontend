@@ -31,10 +31,12 @@ Contact the project creator if you need any support!
 ### Author/Creator
 
 Maya Borrero 
+
 Email: mayaborrero@outlook.com
 
 
 ## Version Histroy
 
 V2 | Main branch, complete/compiled web app
+
 V1 | Dev branch used for building web app
