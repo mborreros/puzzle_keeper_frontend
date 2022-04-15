@@ -19,8 +19,8 @@ App is best view in Google Chrome browser.
 Upon cloning this repository, open the file within your computer's terminal. Once you have navigated to the respective folder/file, run `npm install` to download all necessart packages and dependencies. 
 Note, this project utlizes React, React DOM Router, Bootstrap 5, Material Design Bootstrap, Moment date/time formatter, and an assortment of FontAwesom icons. There should all be availble upon install. 
 
-For the (backend)[https://github.com/mborreros/puzzle_keeper_backend], there is minimal install necessary. 
-Once you clone the repository, run `gem install` in the terminal to download the Ruby gems. This project utilizes SQLite, Active Record, Faker, and other gems. 
+For the [backend database](https://github.com/mborreros/puzzle_keeper_backend), there is minimal install necessary. 
+Once you clone the repository, run `bundle install` in the terminal to download the Ruby gems. This project utilizes SQLite, Active Record, Faker, and other gems. 
 There are some rake commands coded into this project for ease of set up. Run `bundle exec rake db:seed` to load some base data into the web app. Run `bundle exec rake db:seed:replant` to delete the previous seed data and overwrite it. 
 Run `rake server` to get the server up and running and communicating with the front end. 
 
