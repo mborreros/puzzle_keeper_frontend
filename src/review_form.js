@@ -1,10 +1,12 @@
-  import { faBox } from "@fortawesome/free-solid-svg-icons";
-import React, { useEffect, useState } from "react";
-  import { Button, Modal, Col, Row } from "react-bootstrap";
+  import { faBox, faRainbow } from "@fortawesome/free-solid-svg-icons";
+  import React, { useEffect, useState } from "react";
+  import { Button, Modal, Col, Row, Container } from "react-bootstrap";
+  import { MDBInput, MDBInputGroup, MDBTextArea, MDBCheckbox, MDBRadio } from 'mdb-react-ui-kit';
   import Form from 'react-bootstrap/Form'
   
-  function ReviewForm({ show, handleClose, currentPuzzle }){
+  function ReviewForm({ show, handleClose, currentPuzzle, puzzleReview, setPuzzleReview }){
 
+    // defaut database post body for reviews
     const reviewFormData = {
       puzzle_id: 0,
       purchase_reason: "",
@@ -34,6 +36,7 @@ import React, { useEffect, useState } from "react";
         .catch(error => console.log('error', error));
     },[])
 
+    // abstracted to handle all form input types within one function 
     function handleReviewInputs(v){
       // checks if the input passed is a checkbox
       // if so reads the checked true/false value rather than the event.target.value
@@ -55,9 +58,13 @@ import React, { useEffect, useState } from "react";
       }
       fetch(`http://localhost:9292/reviews`, reviewPostData)
           .then(response => response.json())
+          // appends the posted data to the puzzle review state to avoid an unnecessary fetch 
+          .then(data => setPuzzleReview([data, ...puzzleReview]))
           .catch(error => console.log("error", error));
       
+      // closes modal on submit 
       handleClose();
+      // resets the form data to appear blank to the user on submit 
       setFormData(reviewFormData);
     }
   
@@ -67,106 +74,120 @@ import React, { useEffect, useState } from "react";
     })
 
     return(
-        <Modal show={show} onHide={handleClose} className="puzzle-form-modal"> 
-                <Modal.Header closeButton>
-                  <Modal.Title>Add a Review for {currentPuzzle.title}</Modal.Title>
-                </Modal.Header>
-                  <Row className="d-flex">
-                </Row>
-                  <Row  className="d-flex">
-                <Modal.Body>
-                  <Form onSubmit={handleReviewSubmit} name="reviewForm">
-                    <Form.Group className="mb-3" controlId="formUserSubmission">
-                      <Form.Select name="user_id" value={formData.user_id} selected={formData.user_id} onChange={(e) => handleReviewInputs(e.target)}>
-                        <option>Who is submitting this review?</option>
-                        {userSelectOptions}
-                      </Form.Select>
-                    </Form.Group>
-                    <Form.Group className="mb-3" controlId="formPurchaseLocation">
-                      <Form.Label>Purchased at</Form.Label>
-                      <Form.Control type="text" name="purchase_location" value={formData.purchase_location} onChange={(e) => handleReviewInputs(e.target)} placeholder="Where did you buy it?" />
-                    </Form.Group>
-                    <Form.Group className="mb-3" controlId="formReasonForPurchase">
-                      <Form.Label>Reason for Purchase</Form.Label>
-                      <Form.Control type="text" name="purchase_reason" value={formData.purchase_reason} onChange={(e) => handleReviewInputs(e.target)} placeholder="Why did you buy it?" />
-                    </Form.Group>
-                    <Form.Group className="mb-3" controlId="formPosterCheckbox">
-                      <Form.Check type="checkbox" label="Poster included" name="poster" value={formData.poster} onChange={(e) => handleReviewInputs(e.target)}/>
-                    </Form.Group>
-                    <Form.Group className="mb-3" controlId="formPieceQualitySelect">
-                      <Form.Select name="piece_quality" value={formData.piece_quality} selected={formData.piece_quality} onChange={(e) => handleReviewInputs(e.target)}>
-                        <option>Individual piece quality</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                      </Form.Select>
-                    </Form.Group>
-                    <Form.Group className="mb-3" controlId="formPiecesDescription">
-                      <Form.Label>Description of pieces</Form.Label>
-                      <Form.Control type="text" name="piece_quality_desc" value={formData.piece_quality_desc} onChange={(e) => handleReviewInputs(e.target)} placeholder="Share details about the individual pieces" />
-                    </Form.Group>
-                    <Form.Group className="mb-3" controlId="formFitQualitySelect">
-                      <Form.Select name="fit_quality" value={formData.fit_quality} selected={formData.fit_quality} onChange={(e) => handleReviewInputs(e.target)}>
-                        <option>Individual fit quality</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                      </Form.Select>
-                    </Form.Group>
-                    <Form.Group className="mb-3" controlId="formFitDescription">
-                      <Form.Label>Description of piece fit</Form.Label>
-                      <Form.Control type="text" name="fit_quality_desc" value={formData.fit_quality_desc} onChange={(e) => handleReviewInputs(e.target)} placeholder="Share details about the piece fit" />
-                    </Form.Group>
-                    <Form.Group className="mb-3" controlId="formFinishedQuality">
-                      <Form.Select name="finished_quality" value={formData.finished_quality} selected={formData.finished_quality} onChange={(e) => handleReviewInputs(e.target)}>
-                        <option>Finished quality</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                      </Form.Select>
-                    </Form.Group>
-                    <Form.Group className="mb-3" controlId="formFinishedDescription">
-                      <Form.Label>Description of finished product</Form.Label>
-                      <Form.Control type="text" name="finished_quality_desc" value={formData.finished_quality_desc} onChange={(e) => handleReviewInputs(e.target)} placeholder="Share details about the finished product" />
-                    </Form.Group>
-                    <Form.Group className="mb-3" controlId="formDifficulty">
-                      <Form.Select name="difficulty" value={formData.difficulty} selected={formData.difficulty} onChange={(e) => handleReviewInputs(e.target)}>
-                        <option>Overall difficulty</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                      </Form.Select>
-                    </Form.Group>
-                    <Form.Group className="mb-3" controlId="formFinishedDescription">
-                      <Form.Label>Description of overall difficulty</Form.Label>
-                      <Form.Control type="text" name="difficulty_desc" value={formData.difficulty_desc} onChange={(e) => handleReviewInputs(e.target)} placeholder="Share details about the puzzle difficulty" />
-                    </Form.Group>
-                    <Form.Group className="mb-3" controlId="formRecommendCheckbox">
-                      <Form.Check type="checkbox" label="Recommend to a friend?" name="recommend" value={formData.recommend} onChange={(e) => handleReviewInputs(e.target)}/>
-                    </Form.Group>
-                    <Form.Group className="mb-3" controlId="formRecommendDescription">
-                      <Form.Label>Why would you/wouldn't you recommend this?</Form.Label>
-                      <Form.Control type="text" name="recommend_desc" value={formData.recommend_desc} onChange={(e) => handleReviewInputs(e.target)} placeholder="Share details about your recommendation" />
-                    </Form.Group>
-                    
-                    <div className="text-end">
-                    <Button variant="primary" type="submit">
-                      Submit
-                    </Button>
-                    </div>
-                  </Form>
-                </Modal.Body>
-                </Row>
-              </Modal>
-    )
-  };
+    <Modal show={show} onHide={handleClose} className="puzzle-form-modal">
+      <Modal.Header closeButton>
+        <Modal.Title>Add a Review for {currentPuzzle.title}</Modal.Title>
+      </Modal.Header>
+      <Container>
+        <Modal.Body>
+          <Form onSubmit={handleReviewSubmit} name="reviewForm">
+
+            <Form.Group as={Row} className="mb-4" controlId="formUserSubmission">
+              <Form.Select className={formData.user_id == '' ? '' : 'not-empty'} name="user_id" value={formData.user_id} selected={formData.user_id} onChange={(e) => handleReviewInputs(e.target)}>
+                <option value={""}>Contributor name</option>
+                {userSelectOptions}
+              </Form.Select>
+              <label className="form-label">Contributor name</label>
+            </Form.Group>
+
+            <Form.Group as={Row} className="mb-2" controlId="formPurchaseLocation">
+              <MDBInput label='Place of purchase' type='text' name="purchase_location" value={formData.purchase_location} onChange={(e) => handleReviewInputs(e.target)} />
+            </Form.Group>
+
+            <Form.Group as={Row} className="mb-4 textarea-row" controlId="formReasonForPurchase">
+              <MDBTextArea label="Reason for purchase" rows={3} name="purchase_reason" value={formData.purchase_reason} onChange={(e) => handleReviewInputs(e.target)} />
+            </Form.Group>
+
+            <Form.Group as={Row} className="px-2 mb-4" controlId="formPosterCheckbox">
+              <MDBCheckbox label="Included a puzzle poster" name="poster" value={formData.poster} onChange={(e) => handleReviewInputs(e.target)}/>
+            </Form.Group>
+
+            <Form.Group as={Row} className="mb-1" controlId="formPiecesDescription">
+              <Col xs={4} className="pl-1">
+                <Form.Label>Piece Quality &nbsp;</Form.Label>
+              </Col>
+              <Col xs={8} className="px-0 d-flex justify-content-evenly">
+                <MDBRadio name='piece_quality' value='1' label='1' inline onChange={(e) => handleReviewInputs(e.target)}/>
+                <MDBRadio name='piece_quality' value='2' label='2' inline onChange={(e) => handleReviewInputs(e.target)}/>
+                <MDBRadio name='piece_quality' value='3' label='3' inline onChange={(e) => handleReviewInputs(e.target)}/>
+                <MDBRadio name='piece_quality' value='4' label='4' inline onChange={(e) => handleReviewInputs(e.target)}/>
+                <MDBRadio name='piece_quality' value='5' label='5' inline onChange={(e) => handleReviewInputs(e.target)}/>
+              </Col>
+            </Form.Group>
+
+            <Form.Group as={Row} className="mb-4 textarea-row" controlId="formPiecesDescription">
+              <MDBTextArea  label="Description of piece quality" rows={3} name="piece_quality_desc" value={formData.piece_quality_desc} onChange={(e) => handleReviewInputs(e.target)} />
+            </Form.Group>
+
+            <Form.Group as={Row} className="mb-1" controlId="formFitQualitySelect">
+              <Col xs={4} className="pl-1">
+                <Form.Label>Fit Quality&nbsp;</Form.Label>
+              </Col>
+              <Col xs={8} className="px-0 d-flex justify-content-evenly">
+                <MDBRadio name='fit_quality' value='1' label='1' inline onChange={(e) => handleReviewInputs(e.target)}/>
+                <MDBRadio name='fit_quality' value='2' label='2' inline onChange={(e) => handleReviewInputs(e.target)}/>
+                <MDBRadio name='fit_quality' value='3' label='3' inline onChange={(e) => handleReviewInputs(e.target)}/>
+                <MDBRadio name='fit_quality' value='4' label='4' inline onChange={(e) => handleReviewInputs(e.target)}/>
+                <MDBRadio name='fit_quality' value='5' label='5' inline onChange={(e) => handleReviewInputs(e.target)}/>
+              </Col>
+            </Form.Group>
+
+            <Form.Group as={Row} className="mb-4 textarea-row" controlId="formFitDescription">
+              <MDBTextArea label="Description of fit quality" rows={3} name="fit_quality_desc" value={formData.fit_quality_desc} onChange={(e) => handleReviewInputs(e.target)} />
+            </Form.Group>
+
+            <Form.Group as={Row} className="mb-1" controlId="formFinishedQuality">
+              <Col xs={4} className="pl-1">
+                <Form.Label>Finished Quality&nbsp;</Form.Label>
+              </Col>
+              <Col xs={8} className="px-0 d-flex justify-content-evenly">
+                <MDBRadio name='finished_quality' value='1' label='1' inline onChange={(e) => handleReviewInputs(e.target)}/>
+                <MDBRadio name='finished_quality' value='2' label='2' inline onChange={(e) => handleReviewInputs(e.target)}/>
+                <MDBRadio name='finished_quality' value='3' label='3' inline onChange={(e) => handleReviewInputs(e.target)}/>
+                <MDBRadio name='finished_quality' value='4' label='4' inline onChange={(e) => handleReviewInputs(e.target)}/>
+                <MDBRadio name='finished_quality' value='5' label='5' inline onChange={(e) => handleReviewInputs(e.target)}/>
+              </Col>
+            </Form.Group>
+
+            <Form.Group as={Row} className="mb-4 textarea-row" controlId="formFinishedDescription">
+              <MDBTextArea label="Description of finished quality" rows={3} name="finished_quality_desc" value={formData.finished_quality_desc} onChange={(e) => handleReviewInputs(e.target)} />
+            </Form.Group>
+
+            <Form.Group as={Row} className="mb-1" controlId="formDifficulty">
+              <Col xs={4} className="pl-1">
+                <Form.Label>Overall Difficulty&nbsp;</Form.Label>
+              </Col>
+              <Col xs={8} className="px-0 d-flex justify-content-evenly">
+                <MDBRadio name='difficulty' value='1' label='1' inline onChange={(e) => handleReviewInputs(e.target)}/>
+                <MDBRadio name='difficulty' value='2' label='2' inline onChange={(e) => handleReviewInputs(e.target)}/>
+                <MDBRadio name='difficulty' value='3' label='3' inline onChange={(e) => handleReviewInputs(e.target)}/>
+                <MDBRadio name='difficulty' value='4' label='4' inline onChange={(e) => handleReviewInputs(e.target)}/>
+                <MDBRadio name='difficulty' value='5' label='5' inline onChange={(e) => handleReviewInputs(e.target)}/>
+              </Col>
+            </Form.Group>
+
+            <Form.Group as={Row} className="mb-4 textarea-row" controlId="formDifficultyDescription">
+              <MDBTextArea label="Description of overall difficulty" rows={3} name="difficulty_desc" value={formData.difficulty_desc} onChange={(e) => handleReviewInputs(e.target)} />
+            </Form.Group>
+
+            <Form.Group as={Row} className="px-2 mb-1" controlId="formRecommendCheckbox">
+              <MDBCheckbox label="Recommend to a friend?" name="recommend" value={formData.recommend} onChange={(e) => handleReviewInputs(e.target)}/>
+            </Form.Group>
+
+            <Form.Group as={Row} className="mb-4 textarea-row" controlId="formDifficultyDescription">
+              <MDBTextArea label="Details about your recommendation" rows={3} name="recommend_desc" value={formData.recommend_desc} onChange={(e) => handleReviewInputs(e.target)} />
+            </Form.Group>
+
+            <div className="text-end">
+              <Button variant="primary" type="submit">
+                Submit
+              </Button>
+            </div>
+          </Form>
+        </Modal.Body>
+      </Container>
+    </Modal>
+  )
+};
   
   export default ReviewForm

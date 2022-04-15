@@ -1,17 +1,13 @@
-.navbar-logo{
+.navbar-logo {
   padding-right: 8px;
   height: 32px;
 }
-
-/* .puzzle-navbar {
-  background-color: rgb(255, 193, 204);
-} */
 
 .piece-icon {
   padding-bottom: 1px;
 }
 
-nav + .container {
+nav+.container {
   margin-top: 3rem;
 }
 
@@ -25,4 +21,114 @@ nav + .container {
 
 .btn {
   text-transform: none;
+}
+
+.textarea-row .form-outline {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.form-outline{
+  padding-left: 0;
+}
+
+.form-select {
+  color: rgba(0, 0, 0, .6);
+  border-color: #ced4da;
+}
+
+.form-select.not-empty {
+  color: #000;
+  padding-left: .75em;
+}
+
+.form-select+.form-label {
+  visibility: hidden;
+  position: absolute;
+}
+
+.form-select.not-empty+.form-label {
+  visibility: visible;
+  top: 6px;
+  left: 13px;
+  font-size: 80%;
+  background: #fff;
+  display: inline;
+  width: 112px;
+  padding: 2px 3px;
+  text-align: center;
+  color: rgba(0, 0, 0, .6);
+}
+
+.form-select:focus {
+  box-shadow: none;
+  border-color: #1266f1;
+  border-width: 2px;
+}
+
+.form-select:focus+.form-label {
+  color: #1266f1;
+}
+
+.form-check-input:checked[type=checkbox] {
+  background-image: none
+}
+
+/* styling the star rating system for the revies based on information from the data base inserted into the classname */
+.star-rating {
+  display: inline-block;
+  margin-left: 10px;
+}
+.star-rating svg {
+  width: 15px; 
+  height: auto;
+  margin-right: 3px;
+
+}
+.star-rating svg path {
+  fill: #ccc
+}
+.star-rating.rating-1 svg:nth-child(1) path{
+  fill: #fcd93a
+}
+
+.star-rating.rating-2 svg:nth-child(1) path,
+.star-rating.rating-2 svg:nth-child(2) path{
+    fill: #fcd93a
+
+}
+.star-rating.rating-3 svg:nth-child(1) path,
+.star-rating.rating-3 svg:nth-child(2) path,
+.star-rating.rating-3 svg:nth-child(3) path{
+    fill: #fcd93a
+
+}
+.star-rating.rating-4 svg:nth-child(1) path,
+.star-rating.rating-4 svg:nth-child(2) path,
+.star-rating.rating-4 svg:nth-child(3) path,
+.star-rating.rating-4 svg:nth-child(4) path{
+    fill: #fcd93a
+}
+.star-rating.rating-5 svg:nth-child(1) path,
+.star-rating.rating-5 svg:nth-child(2) path,
+.star-rating.rating-5 svg:nth-child(3) path,
+.star-rating.rating-5 svg:nth-child(4) path,
+.star-rating.rating-5 svg:nth-child(5) path{
+    fill: #fcd93a
+}
+
+.review-title {
+  margin-left: -28px;
+}
+
+.review-title svg {
+  margin-right: 8px;
+}
+
+.happy-icon path {
+  fill: #76b976
+}
+
+.unhappy-icon path {
+  fill: #bd86dc
 }

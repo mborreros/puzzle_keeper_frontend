@@ -1,70 +1,40 @@
-# Getting Started with Create React App
+# Puzzle Keeper
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This is a web app that allows puzzle hobbyists to keep track of their puzzling household memebers, their collective wishlist and collection, and reviews on their owned puzzles. 
 
-## Available Scripts
+## Description
 
-In the project directory, you can run:
+This web app is made by a hobbyist for fellow hobbyists. The main intention was to make the review writing and formating process experience easier for puzzlers. As a result, it allows the users to copy their individual reviews to their clipboard in markdown format to easily paste onto Reddit to post. 
 
-### `npm start`
+## Getting Started
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### Dependencies
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+This app requires the download of the companion [backend database](https://github.com/mborreros/puzzle_keeper_backend). Clone this and the backend repository to use complete functionality. 
+All other frontend libraries and packages are available within this frontend repository (install described below).
+App is best view in Google Chrome browser. 
 
-### `npm test`
+### Installing and Executing
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Upon cloning this repository, open the file within your computer's terminal. Once you have navigated to the respective folder/file, run `npm install` to download all necessart packages and dependencies. 
+Note, this project utlizes React, React DOM Router, Bootstrap 5, Material Design Bootstrap, Moment date/time formatter, and an assortment of FontAwesom icons. There should all be availble upon install. 
 
-### `npm run build`
+For the (backend)[https://github.com/mborreros/puzzle_keeper_backend], there is minimal install necessary. 
+Once you clone the repository, run `gem install` in the terminal to download the Ruby gems. This project utilizes SQLite, Active Record, Faker, and other gems. 
+There are some rake commands coded into this project for ease of set up. Run `bundle exec rake db:seed` to load some base data into the web app. Run `bundle exec rake db:seed:replant` to delete the previous seed data and overwrite it. 
+Run `rake server` to get the server up and running and communicating with the front end. 
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Need Help?
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Contact the project creator if you need any support!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Author/Creator
 
-### `npm run eject`
+Maya Borrero 
+Email: mayaborrero@outlook.com
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Version Histroy
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+V2 | Main branch, complete/compiled web app
+V1 | Dev branch used for building web app

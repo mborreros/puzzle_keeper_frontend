@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from "react"
 import "bootstrap/dist/css/bootstrap.css"
-
 import { MDBContainer, MDBNavbar, MDBNavbarBrand, MDBNavbarToggler, MDBNavbarNav, MDBNavbarItem, MDBNavbarLink, MDBCollapse} from 'mdb-react-ui-kit';
 import { useLocation } from "react-router-dom";
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
@@ -22,7 +20,8 @@ function Navigation() {
     urlPath = location.pathname
   }, [location])
 
-
+  // active property checked based on url path, renders which link is selected
+  // work around for MDB component to mimic Nav.Link component functionality 
   return (
     <MDBNavbar expand='lg' light bgColor='light'>
       <MDBContainer fluid>

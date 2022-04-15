@@ -1,12 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
-
-
+import { Card, Row, Col, Button, Container } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { library } from "@fortawesome/fontawesome-svg-core";
-import { faPuzzlePiece, faCirclePlus, faTrashCan, faCartShopping, faListCheck, faFilePen } from "@fortawesome/free-solid-svg-icons";
-
-import { Card, Row, Col, Button, Container } from "react-bootstrap";
+import { faPuzzlePiece, faTrashCan, faCartShopping, faFilePen } from "@fortawesome/free-solid-svg-icons";
+import default_image from "./img/default_puzzle.jpg";
 
 function CollectionPuzzleCard({ collectionPuzzles, setCollectionPuzzles }) {
   // adds puzzle piece icon to the library for the puzzle card
@@ -15,6 +13,7 @@ function CollectionPuzzleCard({ collectionPuzzles, setCollectionPuzzles }) {
   library.add(faCartShopping);
   library.add(faFilePen);
 
+  // allows for the puzzle card to remain visible to the user and toggle removing a puzzle from their collection with minimal consequences 
   function handleRemove(thisPuzzle, id) {
     thisPuzzle.isRemoved = !thisPuzzle.isRemoved;
     let postHeaders = {
@@ -23,11 +22,13 @@ function CollectionPuzzleCard({ collectionPuzzles, setCollectionPuzzles }) {
     },
     postBody = JSON.parse(JSON.stringify(thisPuzzle)),
     postUrl = 'http://localhost:9292/collection';
+    // sends a remove request for the puzzle if it has not yet been removed by the user on click
     if (!thisPuzzle.isRemoved){
       delete postBody.isRemoved;
       delete postBody.id;
       postHeaders.body = JSON.stringify(postBody)
     } else {
+      // sends a post request for the puzzle if it has already been removed by the user on click
       postUrl = `http://localhost:9292/collection/${thisPuzzle.id}`
     }
       fetch(postUrl, postHeaders)
@@ -44,7 +45,8 @@ function CollectionPuzzleCard({ collectionPuzzles, setCollectionPuzzles }) {
     return(
       <Col sm="4" className="pb-4" key={puzzle.id}>
         <Card key={puzzle.id}>
-          <Card.Img variant="top" src={puzzle.image} />
+          {/* displays image associated with the server data if it exists, if it does not - displays a default image */}
+          <Card.Img variant="top" src={puzzle.image ? puzzle.image : default_image} />
           <Container className="px-1 pb-2">
             <Card.Body className="px-2 pb-0">
               <Card.Title as="div" className="row mb-0">
@@ -62,10 +64,12 @@ function CollectionPuzzleCard({ collectionPuzzles, setCollectionPuzzles }) {
             <Row className="px-2 mt-4">
               <Col sm="6">
 
+                {/* Links to specific reviews for this puzzle id */}
                 <Link to={{pathname: `/review/${puzzle.id}`}} className="btn btn-primary"><FontAwesomeIcon icon="fa-solid fa-file-pen" /><span>&nbsp;Reviews</span></Link>
 
                 </Col>
                 <Col sm="6">
+                {/* Conditional rendering of the remove button and icon based on the isRemoved puzzle property */}
                 <Button variant={puzzle.isRemoved ? "danger" : "outline-danger"} className="remove-button float-end" onClick={(e) => handleRemove(puzzle)}>
                   {puzzle.isRemoved ? 
                   <span className="removed-text">Removed</span> : 

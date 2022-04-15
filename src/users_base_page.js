@@ -1,45 +1,21 @@
 import React, { useState, useEffect } from "react";
 import UserForm from "./user_form";
-
-import ListGroup from 'react-bootstrap/ListGroup';
-import Badge from 'react-bootstrap/Badge';
+import { ListGroup, Badge } from 'react-bootstrap';
 import { Row, Container, Col, Button } from "react-bootstrap";
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { library } from "@fortawesome/fontawesome-svg-core";
-import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
-
-function UserPage({ handleClose, handleShow, show }) {
-  library.add(faTrashCan);
+function UserPage({ handleClose, handleShow, show , formatDate}) {
 
   const [userData, setUserData] = useState([]);
 
-  // data fetch is defined outside of useEffect to allow for the page to fetch updated data upon form submission
-  async function fetchUserData() {
+  useEffect(() => {
     fetch("http://localhost:9292/users")
     .then(response => response.json())
     .then(data => {setUserData(data)})
     .catch(error => console.log('error', error));
-  }
-
-  useEffect(() => {
-    fetchUserData()
   },[])
 
   let userEntries = userData.map((user) => {
-    // format join date/created at for card to yyyy-mm-dd from ISO
-    let date = new Date(user.created_at);
-    let year = date.getFullYear();
-    let month = date.getMonth() + 1;
-    let dt = date.getDate();
-
-    if (dt < 10) {
-      dt = '0' + dt;
-    }
-    if (month < 10) {
-      month = '0' + month;
-    }
-    let parsed_join_date = year+'-' + month + '-'+dt
+    let parsed_join_date = formatDate(user.created_at)
 
     return (
       <ListGroup.Item as="li" className="d-flex justify-content-between align-items-start" key={user.id}>
@@ -54,13 +30,6 @@ function UserPage({ handleClose, handleShow, show }) {
           <Badge bg="primary" pill>
            Reviews completed {user.review_count}
           </Badge>
-          {/* add buttons for edit and remove user */}
-          {/* <Col>
-          <Button>Edit</Button>
-          </Col>
-          <Col>
-          <Button variant="outline-danger" className="remove-button float-end"></Button>
-          </Col> */}
           </Row>
         </ListGroup.Item>
       )
@@ -76,7 +45,7 @@ function UserPage({ handleClose, handleShow, show }) {
             <Button className="float-end" variant="secondary" onClick={handleShow}>
               Become a Contributor
             </Button>
-            <UserForm show={show} handleClose={handleClose} fetchData={fetchUserData}/>
+            <UserForm show={show} handleClose={handleClose} fetchData={userData} setUserData={setUserData}/>
           </Col>
           </Row>
         <Row>

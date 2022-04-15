@@ -1,15 +1,18 @@
 import React, { useState } from "react";
-import { Button, Modal } from "react-bootstrap";
+import { MDBInput, MDBTextArea } from 'mdb-react-ui-kit';
+import { Button, Modal, Row, Container } from "react-bootstrap";
 import Form from 'react-bootstrap/Form'
 
-function UserForm({ show, handleClose, fetchData }){
+function UserForm({ show, handleClose, fetchData, setUserData }){
 
+  // default user post body for database
   const userFormData = {
     name: "",
     bio: "",
   };
   const [formData, setFormData] = useState(userFormData)
 
+  // abstracted to handle all form inputs
   function handleUserInputs(v){
     setFormData({
       ...formData,
@@ -19,7 +22,6 @@ function UserForm({ show, handleClose, fetchData }){
 
   function handleUserSubmit(event) {
     event.preventDefault();
-
     let userPostData = {
       method: "POST", 
       headers: {"Content-type": "application/json"}, 
@@ -27,10 +29,12 @@ function UserForm({ show, handleClose, fetchData }){
     }
     fetch("http://localhost:9292/users", userPostData)
         .then(response => response.json())
+        .then(data => setUserData([ data, ...fetchData ]))
         .catch(error => console.log("error", error));
+    // closes modal on submit
     handleClose()
+    // reset the form data on submit so it appears blank to the user
     setFormData(userFormData)
-    fetchData()
   }
 
   return(
@@ -38,21 +42,24 @@ function UserForm({ show, handleClose, fetchData }){
               <Modal.Header closeButton>
                 <Modal.Title>Become a Contributor</Modal.Title>
               </Modal.Header>
-              <Modal.Body>
-                <Form onSubmit={handleUserSubmit}>
-                  <Form.Group className="mb-3" controlId="formUserName">
-                    <Form.Label>Name</Form.Label>
-                    <Form.Control type="text" name="name" value={formData.name} onChange={(e) => handleUserInputs(e.target)} placeholder="Enter name" />
-                  </Form.Group>
-                  <Form.Group className="mb-3" controlId="formUserBio">
-                    <Form.Label>Bio</Form.Label>
-                    <Form.Control as="textarea" rows={3} name="bio" value={formData.bio} onChange={(e) => handleUserInputs(e.target)} placeholder="Tell us a bit about yourself" />
-                  </Form.Group>
-                  <div className="text-end">
-                  <Button variant="primary" type="submit">Join</Button>
-                  </div>
-                </Form>
-              </Modal.Body>
+              <Container>
+                <Modal.Body>
+                  <Form onSubmit={handleUserSubmit}>
+
+                    <Form.Group as={Row} className="mb-4" controlId="formUserName">
+                      <MDBInput label='Name' type='text' name="name" value={formData.name} onChange={(e) => handleUserInputs(e.target)} />
+                    </Form.Group>
+
+                    <Form.Group as={Row} className="mb-4 textarea-row" controlId="formUserBio">
+                      <MDBTextArea label="Bio" rows={3} name="bio" value={formData.bio} onChange={(e) => handleUserInputs(e.target)} />
+                    </Form.Group>
+
+                    <div className="text-end">
+                    <Button variant="primary" type="submit">Join</Button>
+                    </div>
+                  </Form>
+                </Modal.Body>
+              </Container>
             </Modal>
   )
 };

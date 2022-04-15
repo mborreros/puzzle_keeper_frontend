@@ -1,8 +1,5 @@
-// move handleFormInputs function to the top level
-
 import React, { useState } from "react";
 import { Routes, Route } from "react-router-dom";
-
 import Navigation from './navbar.js';
 import UserPage from "./users_base_page.js";
 import PuzzlePage from "./puzzle_base_page.js";
@@ -18,6 +15,23 @@ function App() {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
+  // format dates from database
+  function formatDate(dateFromData){
+    let parsed_join_date;
+    let date = new Date(dateFromData);
+    let year = date.getFullYear();
+    let month = date.getMonth() + 1;
+    let dt = date.getDate();
+
+    if (dt < 10) {
+      dt = '0' + dt;
+    }
+    if (month < 10) {
+      month = '0' + month;
+    }
+    return parsed_join_date = month+'-' + dt + '-'+year
+  }
+
   return (
     <div>
       <Navigation />
@@ -26,7 +40,7 @@ function App() {
           <Route path="/collection" element={<PuzzlePage handleClose={handleClose} handleShow={handleShow} show={show}/>} />
           <Route path="/wishlist" element={<WishListPage handleClose={handleClose} handleShow={handleShow} show={show}/>} />
           <Route path="/review/:id" element={<ReviewPage handleClose={handleClose} handleShow={handleShow} show={show}/>} />
-          <Route path="/users" element={<UserPage handleClose={handleClose} handleShow={handleShow} show={show}/>} />
+          <Route path="/users" element={<UserPage handleClose={handleClose} handleShow={handleShow} show={show} formatDate={formatDate}/>} />
         </Routes>
     </div>
   );
