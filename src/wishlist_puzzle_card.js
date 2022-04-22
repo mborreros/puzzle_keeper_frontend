@@ -89,8 +89,8 @@ function WishlistPuzzleCard({ wishListPuzzles, setWishListPuzzles }) {
                 {puzzle.owned ? 
                   <><FontAwesomeIcon icon="fa-solid fa-list-check" /><span>&nbsp;Collected</span></> : <><FontAwesomeIcon icon="fa-solid fa-circle-plus" /> <span>Collection</span></> 
                 }
-
                 </Button>
+                
                 </Col>
                 <Col sm="6">
                 {/* Conditional rendering of the remove button and icon based on the isRemoved puzzle property */}

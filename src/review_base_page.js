@@ -22,21 +22,20 @@ function ReviewPage({ handleClose, handleShow, show }) {
   const { id } = useParams();
 
   const [puzzleReview, setPuzzleReview] = useState([]);
-  const [puzzleData, setPuzzleData] = useState([]);
+  const [puzzleTitle, setPuzzleTitle] = useState("");
+  const [puzzleId, setPuzzleId] = useState("");
 
   useEffect(() => {
-    // gets review data for particular puzzle in database
+    // gets review, puzzle, and user's name data for particular puzzle in database
     fetch(`http://localhost:9292/reviews/${id}`)
       .then(response => response.json())
-      .then(data => setPuzzleReview(data))
-      .catch(error => console.log('error', error));
-    // gets that specific puzzle's information from database
-    fetch(`http://localhost:9292/collection/${id}`)
-      .then(response => response.json())
-      .then(data => setPuzzleData(data))
-      .catch(error => console.log('error', error));
-  },[]) 
-
+      .then(data => {
+        setPuzzleTitle(data[0].puzzle.title)
+        setPuzzleId(data[0].puzzle.id)
+        setPuzzleReview(data)
+      })
+      .catch(error => console.log('error', error));},
+  []) 
 
   let reviewEntries = puzzleReview.map((review) => {
 // establish text to copy to clipboard on button click
@@ -45,13 +44,13 @@ function ReviewPage({ handleClose, handleShow, show }) {
 let copyText = 
 `## Details
 
-purchased at ${puzzleData.purchase_link ? 
-`[${review.purchase_location}](${puzzleData.purchase_link})` : 
+purchased at ${review.purchase_link ? 
+`[${review.purchase_location}](${review.puzzle.purchase_link})` : 
 `${review.purchase_location}`} 
 
-cost ${puzzleData.price}
+cost ${review.puzzle.price}
 
-style ${puzzleData.style ? puzzleData.style : "standard" }
+style ${review.puzzle.style ? review.puzzle.style : "standard" }
 
 **poster** ${review.poster ? "included": "not included" }
 
@@ -167,13 +166,13 @@ ${review.difficulty_desc}`
     <Container>
     <Row>
       <Col>
-      <h4 className="page-title">{puzzleData.title} Puzzle Review</h4>
+      <h4 className="page-title">{puzzleTitle} Puzzle Review</h4>
       </Col>
       <Col>
           <Button className="float-end" variant="secondary" onClick={handleShow}>
             Add a Review for this Puzzle
           </Button>
-          <ReviewForm show={show} handleClose={handleClose} currentPuzzle={puzzleData} puzzleReview={puzzleReview} setPuzzleReview={setPuzzleReview}/>
+          <ReviewForm show={show} handleClose={handleClose} puzzleId={puzzleId} puzzleTitle={puzzleTitle} puzzleReview={puzzleReview} setPuzzleReview={setPuzzleReview}/>
       </Col>
       </Row>
 

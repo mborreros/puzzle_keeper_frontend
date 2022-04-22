@@ -4,6 +4,7 @@ import { Card, Row, Col, Button, Container } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { faPuzzlePiece, faTrashCan, faCartShopping, faFilePen } from "@fortawesome/free-solid-svg-icons";
+
 import default_image from "./img/default_puzzle.jpg";
 
 function CollectionPuzzleCard({ collectionPuzzles, setCollectionPuzzles }) {
