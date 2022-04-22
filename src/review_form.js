@@ -4,7 +4,7 @@
   import { MDBInput, MDBInputGroup, MDBTextArea, MDBCheckbox, MDBRadio } from 'mdb-react-ui-kit';
   import Form from 'react-bootstrap/Form'
   
-  function ReviewForm({ show, handleClose, currentPuzzle, puzzleReview, setPuzzleReview }){
+  function ReviewForm({ show, handleClose, puzzleId, puzzleTitle, puzzleReview, setPuzzleReview }){
 
     // defaut database post body for reviews
     const reviewFormData = {
@@ -50,7 +50,7 @@
     function handleReviewSubmit(event) {
       event.preventDefault();
       // set the puzzle_id field of the form values to the current puzzle selected
-      formData.puzzle_id = currentPuzzle.id
+      formData.puzzle_id = puzzleId
       let reviewPostData = {
         method: "POST", 
         headers: {"Content-type": "application/json"}, 
@@ -76,7 +76,7 @@
     return(
     <Modal show={show} onHide={handleClose} className="puzzle-form-modal">
       <Modal.Header closeButton>
-        <Modal.Title>Add a Review for {currentPuzzle.title}</Modal.Title>
+        <Modal.Title>Add a Review for {puzzleTitle}</Modal.Title>
       </Modal.Header>
       <Container>
         <Modal.Body>
